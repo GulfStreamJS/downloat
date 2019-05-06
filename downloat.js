@@ -18,7 +18,7 @@ const downloat = params => {
 
     let dir = params.path
         ? params.path
-        : path.join(__dirname, '.downloat');
+        : path.join('.downloat');
     fs.mkdirSync(dir, {recursive: true});
 
     let bar = new Downloading(':bar [:title] :percent', {
