@@ -1,0 +1,35 @@
+{
+  "name": "downloat",
+  "version": "0.0.1",
+  "description": "Torrent client for downloading video files using command-line interface.",
+  "main": "downloat.js",
+  "keywords": [
+    "video",
+    "torrent",
+    "magnet",
+    "file",
+    "files",
+    "download",
+    "progress",
+    "client",
+    "downloat",
+    "gulfstream"
+  ],
+  "license": "MIT",
+  "bin": {
+    "downloat": "bin/downloat.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GulfStreamJS/downloat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GulfStreamJS/downloat/issues"
+  },
+  "homepage": "https://gulfstream.to",
+  "dependencies": {
+    "webtorrent": "latest",
+    "downloading": "latest",
+    "metator": "latest"
+  }
+}
