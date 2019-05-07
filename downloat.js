@@ -92,7 +92,7 @@ const downloat = params => {
                 torrent.files.map(file => metator
                     .info(path.join(dir, file.path)))
             ).then(files => {
-                bar.tick(bar.total - bar.curr, {title: 'DONE'});
+                bar.tick(bar.total - bar.curr, {title: 'DOWNLOAT'});
                 fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify(
                     files[0], null, 2));
                 try {

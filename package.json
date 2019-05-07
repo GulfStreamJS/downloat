@@ -1,6 +1,6 @@
 {
   "name": "downloat",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Torrent client for downloading video files using command-line interface.",
   "main": "downloat.js",
   "keywords": [
@@ -28,8 +28,8 @@
   },
   "homepage": "https://gulfstream.to",
   "dependencies": {
-    "webtorrent": "latest",
-    "downloading": "latest",
-    "metator": "latest"
+    "webtorrent": "0.103.1",
+    "downloading": "0.0.1",
+    "metator": "0.0.1"
   }
 }
