@@ -4,17 +4,13 @@ const metator = require('metator');
 const path = require('path');
 const fs = require('fs');
 
-const index = params => {
+const index = (params = {}) => {
+    if (!params.source)
+        return Promise.reject('The source parameter is required!');
 
-    let source = params.source
-        ? params.source
-        : '';
-
-    let hash = params.hash
-        ? params.hash
-        : /[a-z0-9]{40}/i.test(params.source)
-            ? params.source
-            : 'downloat';
+    let name = params.source
+        ? params.source.replace(/[^a-z0-9]/i, '_') + '.json'
+        : 'downloat.json';
 
     let dir = params.path
         ? params.path
@@ -31,11 +27,11 @@ const index = params => {
         let percent = 0, previous = 0, load = 0, disable = 0;
 
         const client = new webtorrent();
-        const torrent = client.add(source, {path: dir});
+        const torrent = client.add(params.source, {path: dir});
 
         let st = setTimeout(() => {
             clearInterval(si);
-            fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify({
+            fs.writeFileSync(path.join(dir, name), JSON.stringify({
                 error: 'NO START'
             }, null, 2));
             bar.tick(0, {title: 'NO START'});
@@ -58,17 +54,19 @@ const index = params => {
             });
             if (percent !== previous) {
                 previous = percent;
-                fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify({
-                    "name": torrent.name,
-                    "status": percent
+                fs.writeFileSync(path.join(dir, name), JSON.stringify({
+                    name: torrent.name
+                        ? torrent.name
+                        : 'SEARCH PEERS',
+                    percent: percent
                 }, null, 2));
             } else {
                 disable++;
                 if (disable >= 7200) {
                     clearTimeout(st);
                     clearInterval(si);
-                    fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify({
-                        "error": "NO PEERS"
+                    fs.writeFileSync(path.join(dir, name), JSON.stringify({
+                        error: "NO PEERS"
                     }, null, 2));
                     bar.tick(0, {title: 'NO PEERS'});
                     try {
@@ -99,7 +97,7 @@ const index = params => {
                     }
                 });
                 bar.tick(bar.total - bar.curr, {title: 'DOWNLOAT'});
-                fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify(
+                fs.writeFileSync(path.join(dir, name), JSON.stringify(
                     downloat, null, 2));
                 try {
                     client.destroy(err => err ? console.error(err) : '');
