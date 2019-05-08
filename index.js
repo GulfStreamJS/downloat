@@ -4,7 +4,7 @@ const metator = require('metator');
 const path = require('path');
 const fs = require('fs');
 
-const downloat = params => {
+const index = params => {
 
     let source = params.source
         ? params.source
@@ -92,14 +92,20 @@ const downloat = params => {
                 torrent.files.map(file => metator
                     .info(path.join(dir, file.path)))
             ).then(files => {
+                let downloat = [];
+                files.forEach(file => {
+                    if (file && file.length) {
+                        downloat.push(file[0]);
+                    }
+                });
                 bar.tick(bar.total - bar.curr, {title: 'DOWNLOAT'});
                 fs.writeFileSync(path.join(dir, hash + '.json'), JSON.stringify(
-                    files[0], null, 2));
+                    downloat, null, 2));
                 try {
                     client.destroy(err => err ? console.error(err) : '');
                 } catch (e) {
                 }
-                return resolve({...params, ...{downloat: files[0]}});
+                return resolve({...params, ...{downloat}});
             });
         });
 
@@ -107,4 +113,4 @@ const downloat = params => {
 
 };
 
-module.exports = downloat;
+module.exports = index;

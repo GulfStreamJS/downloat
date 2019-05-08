@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const downloat = require('../downloat');
+const downloat = require('../');
 
 let args = process.argv.slice(2);
 
