@@ -9,8 +9,7 @@ const index = (params = {}) => {
         return Promise.reject('The source parameter is required!');
 
     let name = params.source
-        ? params.source.replace(/[^a-z0-9]/i, '_') + '.json'
-        : 'downloat.json';
+        .replace(/[^a-z0-9]/i, '_') + '.json';
 
     let dir = params.path
         ? params.path
@@ -93,8 +92,49 @@ const index = (params = {}) => {
                 let downloat = [];
                 files.forEach(file => {
                     if (file && file.length) {
+                        file[0].hash = torrent.infoHash;
                         downloat.push(file[0]);
                     }
+                });
+                downloat = downloat.filter(file => {
+                    if (params.season && params.episode) {
+                        if (typeof file.season === 'undefined' ||
+                            typeof file.episode === 'undefined') return false;
+                        if (typeof file.season === 'number') {
+                            file.season = file.season.toString();
+                        }
+                        if (typeof file.episode === 'number') {
+                            file.episode = file.episode.toString();
+                        }
+                        if (typeof params.season === 'number') {
+                            params.season = params.season.toString();
+                        } else if (typeof params.season === 'object') {
+                            params.season = params.season.map(season => season
+                                .toString()
+                                .replace(/[^0-9]/, ''));
+                        }
+                        if (typeof params.episode === 'number') {
+                            params.episode = params.episode.toString();
+                        } else if (typeof params.episode === 'object') {
+                            params.episode = params.episode.map(episode => episode
+                                .toString()
+                                .replace(/[^0-9]/, ''));
+                        }
+                        return ((
+                            typeof params.season === 'string' &&
+                            params.season === file.season
+                        ) || (
+                            typeof params.season === 'object' &&
+                            params.season.indexOf(file.season) + 1
+                        )) && ((
+                            typeof params.episode === 'string' &&
+                            params.episode === file.episode
+                        ) || (
+                            typeof params.episode === 'object' &&
+                            params.episode.indexOf(file.episode) + 1
+                        ));
+                    }
+                    return true;
                 });
                 bar.tick(bar.total - bar.curr, {title: 'DOWNLOAT'});
                 fs.writeFileSync(path.join(dir, name), JSON.stringify(

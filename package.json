@@ -1,6 +1,6 @@
 {
   "name": "downloat",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Torrent client for downloading video files using command-line interface.",
   "main": "index.js",
   "keywords": [
@@ -30,6 +30,6 @@
   "dependencies": {
     "webtorrent": "0.103.1",
     "downloading": "0.0.1",
-    "metator": "0.0.2"
+    "metator": "0.0.3"
   }
 }
