@@ -100,12 +100,12 @@ const index = (params = {}) => {
                     if (params.season && params.episode) {
                         if (typeof file.season === 'undefined' ||
                             typeof file.episode === 'undefined') return false;
-                        if (typeof file.season === 'number') {
-                            file.season = file.season.toString();
-                        }
-                        if (typeof file.episode === 'number') {
-                            file.episode = file.episode.toString();
-                        }
+                        let s = typeof file.season === 'number'
+                            ? file.season.toString()
+                            : file.season;
+                        let e = typeof file.episode === 'number'
+                            ? file.episode.toString()
+                            : file.episode;
                         if (typeof params.season === 'number') {
                             params.season = params.season.toString();
                         } else if (typeof params.season === 'object') {
@@ -122,16 +122,16 @@ const index = (params = {}) => {
                         }
                         return ((
                             typeof params.season === 'string' &&
-                            params.season === file.season
+                            params.season === s
                         ) || (
                             typeof params.season === 'object' &&
-                            params.season.indexOf(file.season) + 1
+                            params.season.indexOf(s) + 1
                         )) && ((
                             typeof params.episode === 'string' &&
-                            params.episode === file.episode
+                            params.episode === e
                         ) || (
                             typeof params.episode === 'object' &&
-                            params.episode.indexOf(file.episode) + 1
+                            params.episode.indexOf(e) + 1
                         ));
                     }
                     return true;
