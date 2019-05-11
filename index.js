@@ -5,11 +5,13 @@ const path = require('path');
 const fs = require('fs');
 
 const index = (params = {}) => {
+    if (params.downloat)
+        return Promise.resolve(params);
     if (!params.source)
-        return Promise.reject('The source parameter is required!');
+        return Promise.reject({message: 'The parameters is required!', value: 'source'});
 
     let name = params.source
-        .replace(/[^a-z0-9]/i, '_') + '.json';
+        .replace(/[^a-z0-9]/ig, '_').toUpperCase() + '.json';
 
     let dir = params.path
         ? params.path
