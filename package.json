@@ -1,6 +1,6 @@
 {
   "name": "downloat",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Torrent client for downloading video files using command-line interface.",
   "main": "index.js",
   "keywords": [

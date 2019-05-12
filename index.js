@@ -31,7 +31,7 @@ const index = (params = {}) => {
         const torrent = client.add(params.source, {path: dir});
 
         let st = setTimeout(() => {
-            clearInterval(si);
+            if (si) clearInterval(si);
             fs.writeFileSync(path.join(dir, name), JSON.stringify({
                 error: 'NO START'
             }, null, 2));
@@ -44,7 +44,7 @@ const index = (params = {}) => {
         }, 1000 * 10);
 
         torrent.on('ready', () => {
-            clearTimeout(st);
+            if (st) clearTimeout(st);
         });
 
         let si = setInterval(() => {
@@ -64,8 +64,8 @@ const index = (params = {}) => {
             } else {
                 disable++;
                 if (disable >= 7200) {
-                    clearTimeout(st);
-                    clearInterval(si);
+                    if (st) clearTimeout(st);
+                    if (si) clearInterval(si);
                     fs.writeFileSync(path.join(dir, name), JSON.stringify({
                         error: "NO PEERS"
                     }, null, 2));
@@ -86,7 +86,7 @@ const index = (params = {}) => {
         }, 500);
 
         torrent.on('done', () => {
-            clearInterval(si);
+            if (si) clearInterval(si);
             Promise.all(
                 torrent.files.map(file => metator
                     .info(path.join(dir, file.path)))
