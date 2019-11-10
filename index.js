@@ -39,6 +39,7 @@ const index = (params = {}) => {
             try {
                 client.destroy(err => err ? console.error(err) : '');
             } catch (e) {
+                console.error(e);
             }
             return resolve({...params, ...{downloat: {error: 'NO START'}}});
         }, 1000 * 10);
@@ -73,6 +74,7 @@ const index = (params = {}) => {
                     try {
                         client.destroy(err => err ? console.error(err) : '');
                     } catch (e) {
+                        console.error(e);
                     }
                     return resolve({...params, ...{downloat: {error: 'NO PEERS'}}});
                 }
@@ -138,12 +140,13 @@ const index = (params = {}) => {
                     }
                     return true;
                 });
-                bar.tick(bar.total - bar.curr, {title: 'DOWNLOAT'});
+                bar.tick(bar.total - bar.curr, {title: '☑ DOWNLOAT'});
                 fs.writeFileSync(path.join(dir, name), JSON.stringify(
                     downloat, null, 2));
                 try {
                     client.destroy(err => err ? console.error(err) : '');
                 } catch (e) {
+                    console.error(e);
                 }
                 return resolve({...params, ...{downloat}});
             });
